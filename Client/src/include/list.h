@@ -53,7 +53,7 @@ typedef void FreeItem_f(void *ptr);
  */
 struct ListData {
     /**
-     * @brief Total size of the list.
+     * @brief Total typesize of the list.
      */
     size_t  size;
 
@@ -122,7 +122,7 @@ static void *new_list(size_t count, size_t size, FreeItem_f free_item)
 }
 
 /**
- * @brief Gets the total size of the list.
+ * @brief Gets the total typesize of the list.
  * @param ptr Pointer to the list.
  * @return Size of the list, or @c NULL if the list pointer is invalid.
  */
@@ -150,7 +150,7 @@ static inline size_t lengthof_list(void *ptr)
 }
 
 /**
- * @brief Gets the size of the type of one item in the list.
+ * @brief Gets the typesize of the type of one item in the list.
  * @param ptr Pointer to the list.
  * @return Typesize of one item in the list, or @c NULL if the list pointer is invalid.
  */
@@ -199,7 +199,7 @@ static void free_list(void *ptr)
 }
 
 /**
- * @brief Exponentially increases the size of the list.
+ * @brief Exponentially increases the typesize of the list.
  * @param ptr Address of the pointer to the list to grow.
  * @return Pointer to the new, grown, list (the pointer is also set to this value) or NULL if it could not be grown.
  */

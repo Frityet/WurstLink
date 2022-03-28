@@ -16,6 +16,10 @@
 #endif
 
 typedef enum Bool: _Bool { true = 1, false = 0 } bool;
+
+//typedef void *nullptr_t;
+//const nullptr_t nullptr = NULL;
+
 #else
 #include <cstdint>
 #endif

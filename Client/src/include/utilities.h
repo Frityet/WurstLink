@@ -9,6 +9,11 @@
 #else
 #include <stdint.h>
 #endif
+#include <string.h>
+#include <errno.h>
+extern int errno;
+
+#define ERRNO_MSG strerror(errno)
 
 static inline uint32_t to2ndpower(uint32_t n)
 {
