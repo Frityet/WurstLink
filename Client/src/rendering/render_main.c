@@ -4,16 +4,16 @@
 
 #include <stdlib.h>
 
-#include <GLFW/glfw3.h>
 #include <glad/glad.h>
-
+#include <GLFW/glfw3.h>
 #include "logger.h"
-#include "wurstlink_types.h"
 #include "vector.h"
+
+#include "shaders.h"
 
 static const Vector2_t WINDOW_DIMENSIONS = VECTOR2(640, 480);
 
-static GLFWwindow *win = NULL;
+static GLFWwindow *win;
 
 void render_setup(void)
 {

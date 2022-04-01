@@ -4,7 +4,8 @@
 
 #pragma once
 
-#include "managed.h"
+#include <stdio.h>
+#include <stdlib.h>
 
 #define Vector2_t(_type) struct { _type x, y; }
 #define VECTOR2(...) (Vector2_t) { __VA_ARGS__ }
@@ -57,7 +58,7 @@ static inline Vector2_t vector2_div(Vector2_t vec1, Vector2_t vec2)
 
 static inline char *vector2_str(Vector2_t vec)
 {
-    char *ret = managed_alloc(sizeof(char) * 1024, NULL);
+    char *ret = malloc(sizeof(char) * 1024);
     snprintf(ret, 1024, "(x: %lf, y: %lf)", vec.x, vec.y);
     return ret;
 }
@@ -91,7 +92,7 @@ static inline Vector3_t vector3_div(Vector3_t vec1, Vector3_t vec2)
 
 static inline char *vector3_str(Vector3_t vec)
 {
-    char *ret = managed_alloc(sizeof(char) * 1024, NULL);
+    char *ret = malloc(sizeof(char) * 1024);
     snprintf(ret, 1024, "(x: %lf, y: %lf, z: %lf)", vec.x, vec.y, vec.z);
     return ret;
 }
