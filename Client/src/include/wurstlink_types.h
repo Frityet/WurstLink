@@ -15,14 +15,17 @@
 #undef false
 #endif
 
+#include "common.h"
+
 typedef enum Bool: _Bool { true = 1, false = 0, TRUE = 1, FALSE = 0 } bool;
 
-//typedef void *nullptr_t;
-//const nullptr_t nullptr = NULL;
 
 #else
 #include <cstdint>
 #endif
+
+#define SHARED_STRUCT(_name, _type, _sname, _arrname, ...) union _name { struct { _type __VA_ARGS__; } _sname; _type _arrname[VA_ARGS_COUNT(__VA_ARGS__)]; }
+SHARED_STRUCT(Test, int, values, members, a, b, c);
 
 typedef uint8_t byte_t;
 
@@ -31,5 +34,5 @@ struct EmbeddedInfo {
     const byte_t    source[];
 };
 
-//typedef const struct EmbeddedInfo embedded_t;
-#define EMBEDDED extern const struct EmbeddedInfo
+#define EMBEDDED_t extern const struct EmbeddedInfo
+

@@ -101,6 +101,7 @@ do
 end
 rule_end()
 
+--add_requires("glad")
 
 target("client")
 do
@@ -117,6 +118,8 @@ do
 
     add_includedirs("src/", "src/include/")
     add_includedirs("/usr/local/Cellar/emscripten/3.1.7/libexec/system/include/")
+
+    --add_packages("glad")
 
     add_cxflags("-Wall", "-Wextra", "-Werror", "-pthread")
     add_ldflags (

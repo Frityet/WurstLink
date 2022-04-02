@@ -2,4 +2,6 @@
 
 #include "wurstlink_types.h"
 
-EMBEDDED $shaders_test;
+#define SHADER(_name) $shaders_##_name
+
+EMBEDDED_t SHADER(test), SHADER(fragment), SHADER(vertex);
