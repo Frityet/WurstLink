@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30114.105
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WurstLink.Host", "Host\WurstLink.Host.csproj", "{D3DB1D00-AA15-41CD-9290-643D3D6C3085}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WurstLink.TestHost", "TestHost\WurstLink.TestHost.csproj", "{DC87494A-281F-46ED-B750-496F8031C27B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D3DB1D00-AA15-41CD-9290-643D3D6C3085}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D3DB1D00-AA15-41CD-9290-643D3D6C3085}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D3DB1D00-AA15-41CD-9290-643D3D6C3085}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D3DB1D00-AA15-41CD-9290-643D3D6C3085}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DC87494A-281F-46ED-B750-496F8031C27B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DC87494A-281F-46ED-B750-496F8031C27B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DC87494A-281F-46ED-B750-496F8031C27B}.Release|Any CPU.ActiveCfg = Debug|Any CPU
+		{DC87494A-281F-46ED-B750-496F8031C27B}.Release|Any CPU.Build.0 = Debug|Any CPU
+	EndGlobalSection
+EndGlobal
