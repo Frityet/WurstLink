@@ -4,6 +4,8 @@ build/
 .xmake/
 .idea/
 .ionide/
+.cache/
 
 
 CMakeLists.txt
+compile_commands.json

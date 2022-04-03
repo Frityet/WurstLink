@@ -1,28 +1,27 @@
 #include <stdio.h>
 #include <emscripten.h>
+#include <pthread.h>
 
 #include "logger.h"
-#include "wurstlink_types.h"
+#include "worker.h"
 
 //Located in game/, networking/, and rendering/
-extern void game_setup(void),   *game_main(void *),
-            net_setup(void),    *net_main(void *),
-            render_setup(void), render_main(void);
-
-
+extern void game_setup(int, const void *),  game_main(int, const void *),
+            net_setup(int, const void *),   net_main(int, const void *),
+            render_setup(void),             render_main(void);
 
 int main()
 {
     LOG_INFO("Started WurstLink");
 
-    render_setup(), net_setup(), game_setup();
+    struct Worker   networking_worker   = Worker(NULL, NULL),
+                    game_worker         = Worker(NULL, NULL);
 
-    //pthreads don't work unless you configure your HTTP server for it
-//    pthread_create(&networking_thread, NULL, net_main, NULL);
-//    pthread_create(&game_thread, NULL, game_main, NULL);
+    Worker$add_task(&networking_worker, Task(&net_setup));
+    Worker$add_task(&game_worker, Task(&game_setup));
 
-    net_main(NULL), game_main(NULL);
+    Worker$add_task(&networking_worker, Task(&net_main));
+    Worker$add_task(&game_worker, Task(&game_main));
 
-    //Rendering must run on the main thread or else it breaks.
     emscripten_set_main_loop(render_main, 0, false);
 }

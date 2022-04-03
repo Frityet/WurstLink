@@ -4,6 +4,12 @@
 
 #pragma once
 
+
+#define nullable    _Nullable
+#define nonnull     _Nonnull
+#define nullable_ptr *nullable
+#define nonnull_ptr *nonnull
+
 #ifndef __cplusplus
 #include <stdint.h>
 #include <stddef.h>

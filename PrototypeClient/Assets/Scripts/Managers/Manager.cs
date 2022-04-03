@@ -5,8 +5,8 @@ using UnityEngine;
 
 namespace WurstLink.Managers
 {
-    public abstract class Manager<T> : MonoBehaviour 
-                            where T : Manager<T>
+    public abstract class Manager<T>    : MonoBehaviour 
+                            where T     : Manager<T>
     {
         public static T Instance { get; private set; }
 

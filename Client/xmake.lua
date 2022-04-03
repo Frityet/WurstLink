@@ -1,31 +1,9 @@
-function string.split(s, sep)
-    if sep == nil then sep = "\n" end
+includes("common")
 
-    local t = {}
-    for str in string.gmatch(s, "([^" .. sep .. "]+)") do table.insert(t, str) end
-    return t
-end
-
----@param dst   string
----@param src   string
----@param ...   string[]
----@return      string
-local function concat(dst, src, ...)
-    local args = {...}
-    if #args > 0 then for i, v in ipairs(args) do src = src .. v end end
-    dst = dst .. src
-    return dst
-end
-
----@param dst   string
----@param src   string
----@param ...   string[]
----@return      string
-function string.concat(dst, src, ...) return concat(dst, src, ...) end
 
 ---@param strs  string[]
 ---@param sep   string
-local function merge_tostring(strs, sep)
+local function strmerge(strs, sep)
     local s = ""
     for i = 1, #strs do
         s = s .. strs[i]
@@ -33,6 +11,7 @@ local function merge_tostring(strs, sep)
     end
     return s
 end
+
 
 local CONFIG<const> = {
     compile = {
@@ -45,7 +24,12 @@ local CONFIG<const> = {
 
 rule("embed")
 do
-    on_buildcmd_file(function (target, batch, source, option)
+    on_buildcmd_file(
+        ---@param target Target
+        ---@param batch  BatchCommands
+        ---@param source string
+        ---@param option BuildOptions
+        function (target, batch, source, option)
         import("utils.progress")
         import("core.project.depend")
         import("core.tool.compiler")
@@ -56,7 +40,7 @@ do
         ---@type string
         local objfpath = target:objectfile(source)
         local tmpc_path = objfpath .. ".c"
-        
+
         table.insert(target:objectfiles(), objfpath)
 
         local srcf = io.open(source, "rb")
@@ -134,7 +118,7 @@ do
         add_ldflags("--emrun", "-v")
 
         if CONFIG.compile.sanitizers ~= nil then
-            local sanfl = merge_tostring(CONFIG.compile.sanitizers, ",")
+            local sanfl = strmerge(CONFIG.compile.sanitizers, ",")
             add_cxflags("-fsanitize=" .. sanfl, "-fno-omit-frame-pointer")
             add_ldflags("-fsanitize=" .. sanfl)
         end

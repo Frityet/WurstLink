@@ -1,6 +1,9 @@
+using BepInEx;
+
 namespace WurstLink.Host
 {
-    public class Plugin
+    [BepInPlugin("net.frityet.wurstlink", "WurstLink", "1.0.0")]
+    public class Plugin : BaseUnityPlugin
     {
         
     }

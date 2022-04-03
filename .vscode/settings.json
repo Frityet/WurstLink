@@ -21,5 +21,9 @@
         "?.so",
         "${3rd}/xmake/library"
     ],
-    "Lua.workspace.checkThirdParty": false
+    "Lua.workspace.checkThirdParty": false,
+
+    "omnisharp.useGlobalMono": "always",
+    "omnisharp.enableImportCompletion": true,
+    "omnisharp.enableRoslynAnalyzers": true
 }
