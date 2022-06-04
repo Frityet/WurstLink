@@ -1,9 +1,0 @@
---target("Host")
---do
---    set_kind("shared")
---    add_rules("csharp")
---
---    add_files("src/**.cs")
---end
---target_end()
---
