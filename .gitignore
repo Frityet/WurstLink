@@ -9,3 +9,5 @@ build/
 
 CMakeLists.txt
 compile_commands.json
+
+.DS_Store
