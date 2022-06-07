@@ -1,11 +1,16 @@
+includes("../packages.lua")
+
 --Config: 
 local packages = {
 	"lua",
 
 	"libwebsockets",
 
-	"libsdl",
-	"opengl", "glew"
+	-- "libsdl",
+	-- "opengl", 
+	"glew",
+
+	"managedc"
 }
 
 local sanitizers = { "address", "undefined" }
@@ -47,6 +52,7 @@ do
 	add_headerfiles("src/**.h")
 
 	add_includedirs("src/", "src/include")
+	add_includedirs("/usr/local/Cellar/emscripten/3.1.12/libexec/system/include/")
 
 	add_cflags(cflags.regular)
 	add_ldflags(ldflags.regular)
