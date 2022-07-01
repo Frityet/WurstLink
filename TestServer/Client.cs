@@ -30,26 +30,26 @@ namespace WurstLink.TestServer
 		public void Read(Action<byte[]> afterRead, Action<Exception>? onError = null)
 		{
 			_network.BeginRead(
-				_receiveBuffer,
-				0,
-				_dataBufferSize,
-				res =>
-				{
-					byte[] data;
-					try
-					{
-						data = ReadFromConnection(res);
-					}
-					catch (Exception e)
-					{
-						onError?.Invoke(e);
-						return;
-					}
+			                   buffer: _receiveBuffer,
+			                   offset: 0,
+			                   size: _dataBufferSize,
+			                   callback: res =>
+			                             {
+				                             byte[] data;
+				                             try
+				                             {
+					                             data = ReadFromConnection(res);
+				                             }
+				                             catch (Exception e)
+				                             {
+					                             onError?.Invoke(e);
+					                             return;
+				                             }
 
-					afterRead(data);
-				},
-				null
-			);
+				                             afterRead(data);
+			                             },
+			                   state: null
+			                  );
 		}
 
 		private byte[] ReadFromConnection(IAsyncResult asyncResult)
@@ -59,7 +59,7 @@ namespace WurstLink.TestServer
 				throw new Exception("Received 0 bytes from client");
 
 			var recv = new byte[len];
-			Array.Copy(_receiveBuffer, recv, len);
+			Array.Copy(sourceArray: _receiveBuffer, destinationArray: recv, length: len);
 
 			return recv;
 		}

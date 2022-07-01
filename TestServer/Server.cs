@@ -11,7 +11,7 @@ namespace WurstLink.TestServer
 		public Server(ushort port)
 		{
 			Port = port;
-			_listener = new TcpListener(IPAddress.Any, port);
+			_listener = new TcpListener(localaddr: IPAddress.Any, port: port);
 		}
 
 		public ushort Port { get; }
@@ -26,12 +26,13 @@ namespace WurstLink.TestServer
 		public void Start(Action<Client> afterConnect)
 		{
 			_listener.Start();
-			_listener.BeginAcceptTcpClient(res =>
-			{
-				ConnectedClient = new Client(_listener.EndAcceptTcpClient(res));
+			_listener.BeginAcceptTcpClient(callback: res =>
+			                                         {
+				                                         ConnectedClient =
+					                                         new Client(_listener.EndAcceptTcpClient(res));
 
-				afterConnect(ConnectedClient);
-			}, null);
+				                                         afterConnect(ConnectedClient);
+			                                         }, state: null);
 		}
 	}
 }

@@ -15,7 +15,7 @@ namespace WurstLink.TestServer
 		private readonly IntPtr _address;
 		private readonly T* _data;
 
-		public Pointer(IntPtr address, int count = 1) : this((T*) address, count)
+		public Pointer(IntPtr address, int count = 1) : this(data: (T*) address, count: count)
 		{
 		}
 
@@ -27,7 +27,7 @@ namespace WurstLink.TestServer
 			Count = count;
 		}
 
-		public Pointer(int count) : this(Marshal.AllocHGlobal(count), count)
+		public Pointer(int count) : this(address: Marshal.AllocHGlobal(count), count: count)
 		{
 		}
 
@@ -57,11 +57,11 @@ namespace WurstLink.TestServer
 
 		public void GetObjectData(SerializationInfo info, StreamingContext context)
 		{
-			info.AddValue(nameof(Size), Size);
-			info.AddValue(nameof(Count), Count);
+			info.AddValue(name: nameof(Size), value: Size);
+			info.AddValue(name: nameof(Count), value: Count);
 			for (var i = 0; i < Count; i++)
 			for (var j = 0; j < Size; j++)
-				info.AddValue($"Data[{i}][{j}]", _data[i]);
+				info.AddValue(name: $"Data[{i}][{j}]", value: _data[i]);
 		}
 	}
 
@@ -97,7 +97,7 @@ namespace WurstLink.TestServer
 
 	public static class ByteConvertable
 	{
-		#region Byte converters
+#region Byte converters
 
 		public class Boolean : ByteConvertable<bool>
 		{
@@ -292,6 +292,6 @@ namespace WurstLink.TestServer
 			}
 		}
 
-		#endregion
+#endregion
 	}
 }

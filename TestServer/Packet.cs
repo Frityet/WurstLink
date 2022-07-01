@@ -60,7 +60,7 @@ namespace WurstLink.TestServer
 
 			public Builder Add<T>(T data) where T : IByteConvertable
 			{
-				_packet.Add(new Member<T>(false, false, data));
+				_packet.Add(new Member<T>(primitive: false, unsigned: false, data: data));
 				return this;
 			}
 		}
