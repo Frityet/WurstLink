@@ -9,10 +9,12 @@ namespace WurstLink.TestServer
 	{
 		public static void Main()
 		{
-			byte[] obj = new Packet.Builder().Build();
+			byte[] obj = new Packet.Builder()
+				// .Add(0xDEADBEEF)
+				// .Add("Hello there!")
+				// .Add(new TestStruct(i: 100, name: "Amrit"))
+				.Build();
 			File.WriteAllBytes(path: "test.bin", bytes: obj);
-
-			byte[] data = File.ReadAllBytes("test.bin");
 		}
 
 		public readonly struct TestStruct : Packet.ISerialisableCustomType

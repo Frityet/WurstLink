@@ -9,6 +9,25 @@ namespace WurstLink.TestServer
 	{
 		public const ulong MAGIC = 0xB00B135;
 
+		// public static IEnumerable<Member> Decode(byte[] binary)
+		// {
+		// 	
+		// }
+
+		public static T[] Slice<T>(this T[] self, int start, int end = -1)
+		{
+			end = end < 0 ? self.Length : end;
+
+			int total = end - start;
+			if (total < 0)
+				throw new IndexOutOfRangeException($"{total}");
+
+			var arr = new T[total];
+			for (int i = start; i < end; i++)
+				arr[start - i] = self[i];
+			return arr;
+		}
+
 		public interface IBitConvertable
 		{
 			public byte[] GetBytes();
@@ -45,7 +64,7 @@ namespace WurstLink.TestServer
 			}
 		}
 
-		public readonly struct Member : IBitConvertable
+		public struct Member : IBitConvertable
 		{
 			public enum Type : byte
 			{
@@ -69,9 +88,9 @@ namespace WurstLink.TestServer
 				CUSTOM
 			}
 
-			public Type MemberType { get; }
-			public int Size { get; }
-			public byte[] Data { get; }
+			public Type MemberType { get; internal set; }
+			public int Size { get; internal set; }
+			public byte[] Data { get; internal set; }
 
 			public Member(Type type, byte[] data)
 			{
@@ -125,14 +144,15 @@ namespace WurstLink.TestServer
 		public class Builder : IBuilder<byte[]>, IBitConvertable
 		{
 			private readonly List<Member> _data;
+			private int _count;
 
 			public Builder()
 			{
+				_count = 2;
 				_data = new List<Member>
 				        {
 					        new Member(type: Member.Type.UNSIGNED_LONG, data: BitConverter.GetBytes(MAGIC)),
-					        new Member(type: Member.Type.UNSIGNED_LONG, data: BitConverter.GetBytes(MAGIC)),
-					        new Member(type: Member.Type.UNSIGNED_LONG, data: BitConverter.GetBytes(MAGIC))
+					        new Member(type: Member.Type.SIGNED_INTEGER, data: BitConverter.GetBytes(_count++))
 				        };
 			}
 
@@ -154,13 +174,14 @@ namespace WurstLink.TestServer
 			public Builder Add(byte b)
 			{
 				_data.Add(new Member(type: Member.Type.UNSIGNED_BYTE, data: new[] {b}));
-
+				_data[1] = new Member(type: Member.Type.UNSIGNED_LONG, data: BitConverter.GetBytes(_count++));
 				return this;
 			}
 
 			public Builder Add(ushort b)
 			{
 				_data.Add(new Member(type: Member.Type.UNSIGNED_SHORT, data: BitConverter.GetBytes(b)));
+				_data[1] = new Member(type: Member.Type.UNSIGNED_LONG, data: BitConverter.GetBytes(_count++));
 
 				return this;
 			}
@@ -168,6 +189,7 @@ namespace WurstLink.TestServer
 			public Builder Add(uint b)
 			{
 				_data.Add(new Member(type: Member.Type.UNSIGNED_INTEGER, data: BitConverter.GetBytes(b)));
+				_data[1] = new Member(type: Member.Type.UNSIGNED_LONG, data: BitConverter.GetBytes(_count++));
 
 				return this;
 			}
@@ -175,6 +197,7 @@ namespace WurstLink.TestServer
 			public Builder Add(ulong b)
 			{
 				_data.Add(new Member(type: Member.Type.UNSIGNED_LONG, data: BitConverter.GetBytes(b)));
+				_data[1] = new Member(type: Member.Type.UNSIGNED_LONG, data: BitConverter.GetBytes(_count++));
 
 				return this;
 			}
@@ -182,6 +205,7 @@ namespace WurstLink.TestServer
 			public Builder Add(float b)
 			{
 				_data.Add(new Member(type: Member.Type.FLOAT, data: BitConverter.GetBytes(b)));
+				_data[1] = new Member(type: Member.Type.UNSIGNED_LONG, data: BitConverter.GetBytes(_count++));
 
 				return this;
 			}
@@ -189,6 +213,7 @@ namespace WurstLink.TestServer
 			public Builder Add(double b)
 			{
 				_data.Add(new Member(type: Member.Type.DOUBLE, data: BitConverter.GetBytes(b)));
+				_data[1] = new Member(type: Member.Type.UNSIGNED_LONG, data: BitConverter.GetBytes(_count++));
 
 				return this;
 			}
@@ -196,6 +221,7 @@ namespace WurstLink.TestServer
 			public Builder Add(sbyte b)
 			{
 				_data.Add(new Member(type: Member.Type.SIGNED_BYTE, data: BitConverter.GetBytes(b)));
+				_data[1] = new Member(type: Member.Type.UNSIGNED_LONG, data: BitConverter.GetBytes(_count++));
 
 				return this;
 			}
@@ -203,6 +229,7 @@ namespace WurstLink.TestServer
 			public Builder Add(short b)
 			{
 				_data.Add(new Member(type: Member.Type.SIGNED_SHORT, data: BitConverter.GetBytes(b)));
+				_data[1] = new Member(type: Member.Type.UNSIGNED_LONG, data: BitConverter.GetBytes(_count++));
 
 				return this;
 			}
@@ -210,6 +237,7 @@ namespace WurstLink.TestServer
 			public Builder Add(int b)
 			{
 				_data.Add(new Member(type: Member.Type.SIGNED_INTEGER, data: BitConverter.GetBytes(b)));
+				_data[1] = new Member(type: Member.Type.UNSIGNED_LONG, data: BitConverter.GetBytes(_count++));
 
 				return this;
 			}
@@ -217,6 +245,7 @@ namespace WurstLink.TestServer
 			public Builder Add(long b)
 			{
 				_data.Add(new Member(type: Member.Type.SIGNED_LONG, data: BitConverter.GetBytes(b)));
+				_data[1] = new Member(type: Member.Type.UNSIGNED_LONG, data: BitConverter.GetBytes(_count++));
 
 				return this;
 			}
@@ -224,6 +253,7 @@ namespace WurstLink.TestServer
 			public Builder Add(string b)
 			{
 				_data.Add(new Member(type: Member.Type.STRING, data: Encoding.UTF8.GetBytes(b)));
+				_data[1] = new Member(type: Member.Type.UNSIGNED_LONG, data: BitConverter.GetBytes(_count++));
 
 				return this;
 			}
@@ -231,6 +261,7 @@ namespace WurstLink.TestServer
 			public Builder Add<T>(T obj) where T : IBitConvertable
 			{
 				_data.Add(new Member(type: Member.Type.CUSTOM, data: obj.GetBytes()));
+				_data[1] = new Member(type: Member.Type.UNSIGNED_LONG, data: BitConverter.GetBytes(_count++));
 
 				return this;
 			}
@@ -248,6 +279,7 @@ namespace WurstLink.TestServer
 				_data.Add(new Member(type: Member.Type.ARRAY,
 				                     data: new Member.Array(type: Member.Type.CUSTOM,
 				                                            data: arr).GetBytes()));
+				_data[1] = new Member(type: Member.Type.UNSIGNED_LONG, data: BitConverter.GetBytes(_count++));
 
 				return this;
 			}
